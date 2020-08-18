@@ -1,3 +1,5 @@
+
+//Bean Stalk Application
 package com.customer.registration;
 
 import org.slf4j.Logger;
@@ -16,9 +18,10 @@ public class CustomerRegistrationApplication extends SpringBootServletInitialize
 	private static final Logger log = LoggerFactory.getLogger(CustomerRegistrationApplication.class);
 	
 	public static void main(String[] args) {
-		log.info("inside_CustomerRegistrationApplication");
+		log.info("inside_CustomerRegistrationApplication_Elastic_beanstalk");
 		System.out.print("inside_CustomerRegistrationApplication");
 		SpringApplication.run(CustomerRegistrationApplication.class, args);
 	}
 
 }
+
