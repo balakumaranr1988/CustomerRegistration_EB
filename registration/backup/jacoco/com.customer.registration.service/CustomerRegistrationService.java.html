@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CustomerRegistrationService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">customerRegistration</a> &gt; <a href="index.source.html" class="el_package">com.customer.registration.service</a> &gt; <span class="el_source">CustomerRegistrationService.java</span></div><h1>CustomerRegistrationService.java</h1><pre class="source lang-java linenums">package com.customer.registration.service;
+
+import com.customer.registration.models.CustomerRegistrationResponse;
+import com.customer.registration.repo.CustomerRegistrationRepository;
+import com.customer.registration.models.CustomerRegistrationDetail;
+
+import java.util.Base64;
+import java.util.List;
+import java.util.Optional;
+import java.nio.charset.StandardCharsets;
+import java.io.IOException;
+import java.sql.SQLException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+@Component
+<span class="fc" id="L19">public class CustomerRegistrationService </span>
+
+{
+	@Autowired
+	private CustomerRegistrationResponse CustomerRegistrationResponse;
+
+	@Autowired
+	private CustomerRegistrationRepository CustomerRegistrationRepository;
+<span class="fc" id="L27">	private static final Logger log = LoggerFactory.getLogger(CustomerRegistrationService.class);</span>
+	
+
+	interface GreetingCustomer {
+	      void sayMessage(String message);
+	   }
+	
+	
+	
+	public CustomerRegistrationResponse Login(CustomerRegistrationDetail Customer_dtl)
+			throws SQLException, IOException {
+<span class="fc" id="L38">		log.info(&quot;Customer Register : Inside Customer Registration Service&quot;);</span>
+<span class="fc" id="L39">		boolean Flag = true;</span>
+<span class="fc" id="L40">		Optional user_name = Optional.ofNullable(Customer_dtl.getUser_name());</span>
+<span class="pc bpc" id="L41" title="2 of 4 branches missed.">		if (!user_name.isPresent() || (Customer_dtl.getUser_name().length() == 0))</span>
+
+		{
+<span class="nc" id="L44">			log.info(&quot;User name cannot be blank&quot;);</span>
+<span class="nc" id="L45">			CustomerRegistrationResponse.setMessage(&quot;User name cannot be blank&quot;);</span>
+<span class="nc" id="L46">			CustomerRegistrationResponse.setId(400);</span>
+<span class="nc" id="L47">			Flag = false;</span>
+		}
+<span class="fc" id="L49">		Optional password = Optional.ofNullable(Customer_dtl.getPassword());</span>
+<span class="pc bpc" id="L50" title="2 of 4 branches missed.">		if (!password.isPresent() || (Customer_dtl.getPassword().length() == 0)) {</span>
+<span class="nc" id="L51">			log.info(&quot;passowrd cannot be blank&quot;);</span>
+<span class="nc" id="L52">			CustomerRegistrationResponse.setMessage(&quot;password cannot be blank&quot;);</span>
+<span class="nc" id="L53">			CustomerRegistrationResponse.setId(400);</span>
+<span class="nc" id="L54">			Flag = false;</span>
+		}
+<span class="pc bpc" id="L56" title="1 of 2 branches missed.">		if (Flag == true) {</span>
+<span class="fc" id="L57">			Base64.Encoder encoder = Base64.getEncoder();</span>
+<span class="fc" id="L58">			String encodedPassword = encoder.encodeToString(Customer_dtl.getPassword().getBytes(StandardCharsets.UTF_8));</span>
+<span class="fc" id="L59">			List&lt;CustomerRegistrationDetail&gt; Custlist = CustomerRegistrationRepository.loginCheck(Customer_dtl.getUser_name(), encodedPassword);</span>
+
+<span class="fc" id="L61">			GreetingCustomer GreetingCustomer = (message) -&gt;</span>
+<span class="fc" id="L62">		      System.out.println(&quot;Hello &quot; + message);</span>
+		      
+<span class="fc bfc" id="L64" title="All 2 branches covered.">			if (Custlist.stream().count() &gt; 0) {</span>
+<span class="fc" id="L65">				log.info(&quot;Login Successful&quot;);</span>
+<span class="fc" id="L66">				GreetingCustomer.sayMessage(Customer_dtl.getUser_name() +&quot;your login is successful&quot;);</span>
+<span class="fc" id="L67">				CustomerRegistrationResponse.setMessage(&quot;Login Successful&quot;);</span>
+<span class="fc" id="L68">				CustomerRegistrationResponse.setId(200);</span>
+			} else {
+<span class="fc" id="L70">				log.info(&quot;Invalid credentials/user not found&quot;);</span>
+<span class="fc" id="L71">				CustomerRegistrationResponse.setId(400);</span>
+<span class="fc" id="L72">				GreetingCustomer.sayMessage(Customer_dtl.getUser_name() +&quot;your login is not successful&quot;);</span>
+<span class="fc" id="L73">				CustomerRegistrationResponse.setMessage(&quot;Invalid credentials/user not found&quot;);</span>
+			}
+
+		}
+
+<span class="fc" id="L78">		return CustomerRegistrationResponse;</span>
+
+	}
+
+	public CustomerRegistrationResponse Registration(CustomerRegistrationDetail Customer_dtl)
+			throws SQLException, IOException {
+<span class="fc" id="L84">		log.info(&quot;Customer Register : Inside Customer Registration Service&quot;);</span>
+
+<span class="fc" id="L86">		boolean Flag = true;</span>
+
+<span class="fc" id="L88">		Optional user_name = Optional.ofNullable(Customer_dtl.getUser_name());</span>
+<span class="pc bpc" id="L89" title="2 of 4 branches missed.">		if (!user_name.isPresent() || (Customer_dtl.getUser_name().length() == 0)) {</span>
+<span class="nc" id="L90">			log.info(&quot;User name cannot be blank&quot;);</span>
+<span class="nc" id="L91">			CustomerRegistrationResponse.setMessage(&quot;User name cannot be blank&quot;);</span>
+<span class="pc bpc" id="L92" title="1 of 2 branches missed.">		} else if (Customer_dtl.getUser_name().length() &gt; 0) {</span>
+
+<span class="fc" id="L94">			List&lt;CustomerRegistrationDetail&gt; Custlist = CustomerRegistrationRepository.userCheck(Customer_dtl.getUser_name());</span>
+			
+<span class="pc bpc" id="L96" title="1 of 2 branches missed.">			if (Custlist.stream().count() &gt; 0) {</span>
+<span class="fc" id="L97">				log.info(&quot;The cutomer already exists&quot;);</span>
+<span class="fc" id="L98">				CustomerRegistrationResponse.setId(400);</span>
+<span class="fc" id="L99">				CustomerRegistrationResponse.setMessage(&quot;The cutomer already exists&quot;);</span>
+<span class="fc" id="L100">				Flag = false;</span>
+			}
+
+		}
+
+<span class="fc" id="L105">		Optional first_name = Optional.ofNullable(Customer_dtl.getFirst_name());</span>
+<span class="pc bpc" id="L106" title="2 of 4 branches missed.">		if (!first_name.isPresent() || (Customer_dtl.getFirst_name().length() == 0)) {</span>
+<span class="nc" id="L107">			log.info(&quot;customer name cannot be blank&quot;);</span>
+<span class="nc" id="L108">			CustomerRegistrationResponse.setId(400);</span>
+<span class="nc" id="L109">			CustomerRegistrationResponse.setMessage(&quot;Customer name cannot be blank&quot;);</span>
+<span class="nc" id="L110">			Flag = false;</span>
+		}
+<span class="fc" id="L112">		Optional email = Optional.ofNullable(Customer_dtl.getEmail());</span>
+<span class="pc bpc" id="L113" title="2 of 4 branches missed.">		if (!email.isPresent() || (Customer_dtl.getEmail().length() == 0)) {</span>
+<span class="nc" id="L114">			log.info(&quot;email cannot be blank&quot;);</span>
+<span class="nc" id="L115">			CustomerRegistrationResponse.setId(400);</span>
+<span class="nc" id="L116">			CustomerRegistrationResponse.setMessage(&quot;Email cannot be blank&quot;);</span>
+<span class="nc" id="L117">			Flag = false;</span>
+		}
+<span class="fc" id="L119">		Optional pan = Optional.ofNullable(Customer_dtl.getPan());</span>
+<span class="pc bpc" id="L120" title="2 of 4 branches missed.">		if (!pan.isPresent() || (Customer_dtl.getPan().length() == 0)) {</span>
+<span class="nc" id="L121">			log.info(&quot;PAN cannot be blank&quot;);</span>
+<span class="nc" id="L122">			CustomerRegistrationResponse.setMessage(&quot;PAN number cannot be blank&quot;);</span>
+<span class="nc" id="L123">			CustomerRegistrationResponse.setId(400);</span>
+<span class="nc" id="L124">			Flag = false;</span>
+		}
+<span class="fc" id="L126">		Optional dob = Optional.ofNullable(Customer_dtl.getDob());</span>
+<span class="pc bpc" id="L127" title="2 of 4 branches missed.">		if (!dob.isPresent() || (Customer_dtl.getDob().length() == 0)) {</span>
+<span class="nc" id="L128">			log.info(&quot;DOB cannot be blank&quot;);</span>
+<span class="nc" id="L129">			CustomerRegistrationResponse.setMessage(&quot;DOB cannot be blank&quot;);</span>
+<span class="nc" id="L130">			CustomerRegistrationResponse.setId(400);</span>
+<span class="nc" id="L131">			Flag = false;</span>
+		}
+<span class="fc" id="L133">		Optional address = Optional.ofNullable(Customer_dtl.getAddress());</span>
+<span class="pc bpc" id="L134" title="2 of 4 branches missed.">		if (!address.isPresent() || (Customer_dtl.getAddress().length() == 0)) {</span>
+<span class="nc" id="L135">			log.info(&quot;address name cannot be blank&quot;);</span>
+<span class="nc" id="L136">			CustomerRegistrationResponse.setMessage(&quot;Address cannot be blank&quot;);</span>
+<span class="nc" id="L137">			CustomerRegistrationResponse.setId(400);</span>
+<span class="nc" id="L138">			Flag = false;</span>
+		}
+
+<span class="pc bpc" id="L141" title="1 of 2 branches missed.">		if (Flag == true) {</span>
+
+			try {
+<span class="nc" id="L144">				java.sql.Timestamp date = new java.sql.Timestamp(new java.util.Date().getTime());</span>
+<span class="nc" id="L145">				Base64.Encoder encoder = Base64.getEncoder();</span>
+<span class="nc" id="L146">				String encodedPassword = encoder</span>
+<span class="nc" id="L147">						.encodeToString(Customer_dtl.getPassword().getBytes(StandardCharsets.UTF_8));</span>
+<span class="nc" id="L148">				Customer_dtl.setUpdatedat(date);</span>
+<span class="nc" id="L149">				Customer_dtl.setUpdatedby(Customer_dtl.getUser_name());</span>
+<span class="nc" id="L150">				Customer_dtl.setPassword(encodedPassword);</span>
+<span class="nc" id="L151">				CustomerRegistrationRepository.save(Customer_dtl);</span>
+<span class="nc" id="L152">				log.info(&quot;The cutomer detail is Registered&quot;);</span>
+<span class="nc" id="L153">				CustomerRegistrationResponse.setMessage(&quot;The cutomer detail is Registered&quot;);</span>
+<span class="nc" id="L154">				CustomerRegistrationResponse.setId(200);</span>
+<span class="nc" id="L155">			} catch (Exception e) {</span>
+<span class="nc" id="L156">				CustomerRegistrationResponse.setMessage(&quot;The cutomer already exists&quot;);</span>
+<span class="nc" id="L157">				CustomerRegistrationResponse.setId(400);</span>
+<span class="nc" id="L158">			}</span>
+		}
+
+<span class="fc" id="L161">		return CustomerRegistrationResponse;</span>
+
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

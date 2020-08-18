@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CustomerRegistrationDetail.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">customerRegistration</a> &gt; <a href="index.source.html" class="el_package">com.customer.registration.models</a> &gt; <span class="el_source">CustomerRegistrationDetail.java</span></div><h1>CustomerRegistrationDetail.java</h1><pre class="source lang-java linenums">package com.customer.registration.models;
+
+import java.sql.Timestamp;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name=&quot;customer_dtl&quot;)
+<span class="fc" id="L11">public class CustomerRegistrationDetail {</span>
+	@Id
+	String user_name;
+	String first_name;
+	String email;
+	String address;
+	String pan;
+	String dob;
+	String password;
+	public String getUpdatedby() {
+<span class="nc" id="L21">		return updatedby;</span>
+	}
+	public void setUpdatedby(String updatedby) {
+<span class="nc" id="L24">		this.updatedby = updatedby;</span>
+<span class="nc" id="L25">	}</span>
+	public Timestamp getUpdatedat() {
+<span class="nc" id="L27">		return updatedat;</span>
+	}
+	public void setUpdatedat(Timestamp updatedat) {
+<span class="nc" id="L30">		this.updatedat = updatedat;</span>
+<span class="nc" id="L31">	}</span>
+	String updatedby;
+	Timestamp updatedat;
+	
+	public String getUser_name() {
+<span class="fc" id="L36">		return user_name;</span>
+	}
+	public void setUser_name(String user_name) {
+<span class="fc" id="L39">		this.user_name = user_name;</span>
+<span class="fc" id="L40">	}</span>
+	public String getFirst_name() {
+<span class="fc" id="L42">		return first_name;</span>
+	}
+	public void setFirst_name(String first_name) {
+<span class="fc" id="L45">		this.first_name = first_name;</span>
+<span class="fc" id="L46">	}</span>
+	public String getEmail() {
+<span class="fc" id="L48">		return email;</span>
+	}
+	public void setEmail(String email) {
+<span class="fc" id="L51">		this.email = email;</span>
+<span class="fc" id="L52">	}</span>
+	public String getAddress() {
+<span class="fc" id="L54">		return address;</span>
+	}
+	public void setAddress(String address) {
+<span class="fc" id="L57">		this.address = address;</span>
+<span class="fc" id="L58">	}</span>
+	public String getPan() {
+<span class="fc" id="L60">		return pan;</span>
+	}
+	public void setPan(String pan) {
+<span class="fc" id="L63">		this.pan = pan;</span>
+<span class="fc" id="L64">	}</span>
+	public String getDob() {
+<span class="fc" id="L66">		return dob;</span>
+	}
+	public void setDob(String dob) {
+<span class="fc" id="L69">		this.dob = dob;</span>
+<span class="fc" id="L70">	}</span>
+	public String getPassword() {
+<span class="fc" id="L72">		return password;</span>
+	}
+	public void setPassword(String password) {
+<span class="fc" id="L75">		this.password = password;</span>
+<span class="fc" id="L76">	}</span>
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
